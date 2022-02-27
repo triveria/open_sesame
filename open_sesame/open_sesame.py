@@ -18,6 +18,8 @@ from twilio.twiml.messaging_response import MessagingResponse
 from datetime import datetime
 import yaml
 from pathlib import Path
+import paho.mqtt.client as mqtt
+import time
 
 
 app = Flask(__name__)
@@ -48,6 +50,12 @@ def is_access_granted(sender, allow_list):
         return False
 
 
+def send_open():
+    client = mqtt.Client("WhatsApp_butler")
+    client.connect("192.168.2.3")
+    client.publish("smart_house_door", "open")
+
+
 @app.route('/', methods=['POST'])
 def bot():
     allow_list_filepath = app.config['allow_list_filepath']
@@ -57,6 +65,7 @@ def bot():
     print(f"sender = {sender}")
     access_granted = is_access_granted(sender, allow_list)
     if access_granted:
+        send_open()
         response = "you may enter"
     else:
         response = "you shall not pass"
@@ -79,6 +88,7 @@ if __name__ in ['__main__', '__console__']:
     access_granted = is_access_granted(sender, allow_list)
     if access_granted:
         response = "you may enter"
+        send_open()
     else:
         response = "you shall not pass"
     print(response)
