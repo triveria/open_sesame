@@ -11,7 +11,6 @@ You send any WhatsApp message to your twilio account and in response a MQTT mess
 #TODO: make ESP an MQTT client
 #TODO: make full program via cookiecutter: run, run --config=/etc/myConf.yaml, add --name="Gast" --number="491721234567" --expires=+6h
 #TODO: convert into systemd service
-#TODO: load allow_list / deny-list
 #TODO: send MQTT message to broker
 #TODO: make ESP raise pin-voltage for 5s
 #TODO: add Arduino project as submodule
@@ -20,45 +19,70 @@ You send any WhatsApp message to your twilio account and in response a MQTT mess
 from flask import Flask, request
 import requests
 from twilio.twiml.messaging_response import MessagingResponse
+from datetime import datetime
+import yaml
+from pathlib import Path
 
 
 app = Flask(__name__)
 
 
-allow_list = ["49172123456789"]
+def read_yaml(filepath):
+    with open(filepath, 'r') as read_file:
+        content = yaml.safe_load(read_file)
+    return content
+
+
+def load_allow_list(allow_list_filepath):
+    allow_list = read_yaml(allow_list_filepath)
+    return allow_list
+
+
+def is_access_granted(sender, allow_list):
+    if sender not in allow_list:
+        return False
+
+    valid_from = datetime.strptime(allow_list[sender]['valid_from'], "%Y.%m.%d - %H:%M:%S")
+    valid_until = datetime.strptime(allow_list[sender]['valid_until'], "%Y.%m.%d - %H:%M:%S")
+    now = datetime.now()
+
+    if (valid_from <= now) and (now <= valid_until):
+        return True
+    else:
+        return False
 
 
 @app.route('/', methods=['POST'])
 def bot():
+    allow_list_filepath = app.config['allow_list_filepath']
+    allow_list = load_allow_list(allow_list_filepath) # always read allow_list when receiving new message
     sender = request.values.get('WaId', '').lower()
     print(f"type(sender) = {type(sender)}")
     print(f"sender = {sender}")
-    if sender in allow_list:
-        prefix = "you may enter"
+    access_granted = is_access_granted(sender, allow_list)
+    if access_granted:
+        response = "you may enter"
     else:
-        prefix = "you shall not pass"
+        response = "you shall not pass"
     incoming_msg = request.values.get('Body', '').lower()
     resp = MessagingResponse()
     msg = resp.message()
-    responded = False
-    if 'quote' in incoming_msg:
-        # return a quote
-        r = requests.get('https://api.quotable.io/random')
-        if r.status_code == 200:
-            data = r.json()
-            quote = f'{data["content"]} ({data["author"]})'
-        else:
-            quote = 'I could not retrieve a quote at this time, sorry.'
-        msg.body(f"{prefix} \n {quote}")
-        responded = True
-    if 'cat' in incoming_msg:
-        # return a cat pic
-        msg.media('https://cataas.com/cat')
-        responded = True
-    if not responded:
-        msg.body(f'{prefix} \n I only know about famous quotes and cats, sorry!')
+    msg.body(f'{response}')
     return str(resp)
 
 
-if __name__ in ['__main__', '__console__']:
+def main(allow_list_filepath):
+    app.config['allow_list_filepath'] = allow_list_filepath
     app.run()
+
+
+if __name__ in ['__main__', '__console__']:
+    sender = "49172123456"
+    allow_list_filepath = Path(__file__).absolute().parent.parent / "resources" / "allow_list.yaml"
+    allow_list = load_allow_list(allow_list_filepath)
+    access_granted = is_access_granted(sender, allow_list)
+    if access_granted:
+        response = "you may enter"
+    else:
+        response = "you shall not pass"
+    print(response)

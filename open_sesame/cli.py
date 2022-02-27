@@ -1,15 +1,14 @@
 """Console script for open_sesame."""
 import sys
 import click
+from open_sesame import open_sesame
 
 
 @click.command()
 def main(args=None):
-    """Console script for open_sesame."""
-    click.echo("Replace this message by putting your code into "
-               "open_sesame.cli.main")
-    click.echo("See click documentation at https://click.palletsprojects.com/")
+    open_sesame.main("")
     return 0
+
 
 
 if __name__ == "__main__":
