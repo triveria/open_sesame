@@ -5,15 +5,11 @@ You send any WhatsApp message to your twilio account and in response a MQTT mess
 
 # ref.: https://www.twilio.com/blog/build-a-whatsapp-chatbot-with-python-flask-and-twilio
 
-#TODO: how to control house door via telephone?? => without it, project is useless
-#       => is there DC available? Can MOSFETS pass AC?
-#       => design + 3D print box for custom electronics
-#TODO: make ESP an MQTT client
+#TODO: use relais to control door strikes
 #TODO: make full program via cookiecutter: run, run --config=/etc/myConf.yaml, add --name="Gast" --number="491721234567" --expires=+6h
 #TODO: convert into systemd service
 #TODO: send MQTT message to broker
-#TODO: make ESP raise pin-voltage for 5s
-#TODO: add Arduino project as submodule
+#TODO: add ESP project as submodule
 
 
 from flask import Flask, request
