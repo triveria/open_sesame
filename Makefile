@@ -86,4 +86,10 @@ dist: clean ## builds source and wheel package
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	pip install -e .
+	pip install .
+	mkdir -p /etc/open_sesame
+	cp resources/allow_list.yaml /etc/open_sesame/
+	cp resources/open_sesame.ini /etc/open_sesame/
+	cp resources/open_sesame.service /etc/systemd/system/
+	systemctl enable open_sesame
+	systemctl start open_sesame

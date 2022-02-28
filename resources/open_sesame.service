@@ -1,0 +1,8 @@
+[Unit]
+Description=Turn your medieval-technology door into a smart door
+
+[Service]
+ExecStart=/usr/bin/open_sesame run
+
+[Install]
+WantedBy=multi-user.target

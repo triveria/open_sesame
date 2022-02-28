@@ -7,7 +7,6 @@ You send a WhatsApp message to your twilio account and in response a MQTT messag
 
 #TODO: use relais to control door strikes
 #TODO: make full program via cookiecutter: run, add --name="Gast" --number="491721234567" --expires=+6h
-#TODO: make install: convert into systemd service, copy resource files to /etc
 #TODO: add ESP project as submodule
 #TODO: translate responses
 
