@@ -8,5 +8,5 @@ __version__ = '0.1.0'
 from open_sesame import open_sesame
 
 
-def run(allow_list):
-    open_sesame.main(allow_list)
+def run():
+    open_sesame.main()

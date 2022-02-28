@@ -15,9 +15,8 @@ def main():
 
 
 @main.command()
-@click.option("--cfg") #, type=click.Path, help="")
-def run(cfg):
-    open_sesame.run(cfg)
+def run():
+    open_sesame.run()
     return 0
 
 
