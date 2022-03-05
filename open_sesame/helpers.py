@@ -48,7 +48,7 @@ def load_mqtt_config():
     return (client_name, broker_ip, topic, message)
 
 
-def send_open():
+def open_door():
     (client_name, broker_ip, topic, message) = load_mqtt_config()
     client = mqtt.Client(client_name)
     client.connect(broker_ip)
