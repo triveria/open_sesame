@@ -21,6 +21,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options
+
 
 
 def enter_chat(driver, sender):
@@ -66,7 +68,9 @@ def main():
     ini = h.load_ini()
     firefox_profile_filepath = ini["MAIN"]["firefox_profile"]
     fp = webdriver.FirefoxProfile(firefox_profile_filepath)
-    driver = webdriver.Firefox(fp)
+    options = Options()
+    options.headless = True
+    driver = webdriver.Firefox(fp, options=options)
     driver.get("https://web.whatsapp.com")
     time.sleep(10)
 
