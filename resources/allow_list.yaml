@@ -1,10 +1,8 @@
-"49172123456":
-    name: "Mickey Mouse"
+"Mickey Mouse":
     valid_from:  2022.02.27 - 21:00:00
     valid_until: 2022.02.28 - 22:22:00
 
 
-"49176123456789":
-    name: "Donald Duck"
+"Donald Duck"
     valid_from:  2022.02.27 - 21:00:00
     valid_until: 3022.02.28 - 22:22:00
