@@ -9,6 +9,7 @@ You send a WhatsApp message to your twilio account and in response a MQTT messag
 #TODO: make full program via cookiecutter: run, add --name="Gast" --number="491721234567" --expires=+6h
 #TODO: add ESP project as submodule
 #TODO: translate responses
+#TODO: simplify ngrok handling https://github.com/vincenthsu/systemd-ngrok
 
 
 from flask import Flask, request
