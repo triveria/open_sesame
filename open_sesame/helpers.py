@@ -41,14 +41,14 @@ def load_ini():
 
 def load_mqtt_config():
     ini = load_ini()
-    client_name = ini['MQTT']['clientName']
-    broker_ip   = ini['MQTT']['brokerIP']
+    client_name = ini['MQTT']['client_name']
+    broker_ip   = ini['MQTT']['broker_IP']
     topic       = ini['MQTT']['topic']
     message     = ini['MQTT']['message']
     return (client_name, broker_ip, topic, message)
 
 
-def send_open():
+def open_door():
     (client_name, broker_ip, topic, message) = load_mqtt_config()
     client = mqtt.Client(client_name)
     client.connect(broker_ip)
