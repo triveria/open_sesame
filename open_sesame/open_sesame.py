@@ -11,6 +11,7 @@ In response a MQTT message is sent to your smart door.
 #TODO: make full program via cookiecutter: run, add --name="Gast" --expires=+6h
 #TODO: add ESP project as submodule
 #TODO: translate responses
+#TODO: switch to sipgate: https://github.com/sipgate-io/sipgateio-callevents-python, https://github.com/sipgate-io/sipgateio-incomingcall-python
 
 
 from . import helpers as h
